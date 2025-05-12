@@ -36,7 +36,7 @@ function GitHubAPI(userToken) {
         }
     }
 
-    async function gerRepoIssues(owner, repo, state = 'open') {
+    async function getRepoIssues(owner, repo, state = 'open') {
         try{
             const res = await client.get(`/repos/${owner}/${repo}/issues?state=${state}`);
             return res.data;
@@ -64,9 +64,65 @@ function GitHubAPI(userToken) {
             console.error("Error getting starred repos: ",error.message);
         }
     }
+
+    async function getRepoForks(owner, repo) {
+        try{
+            const res = await client.get(`/repos/${owner}/${repo}/forks`);
+            return res.data;
+        } catch (error) {
+            console.error("Error getting repo forks: ",error.message);
+        }
+    }
+
+    async function getRepoCollabs(owner, repo, token) {
+        try{
+            const res = await client.get(`/repos/${owner}/${repo}/collaborators`, {
+                headers: {Authorization: `token ${token}`}
+            });
+            return res.data;
+        } catch (error){
+            console.error("Error getting repo collaborators: ",error.message);
+        }
+    }
+
+    async function getRepoCommits(owner, repo, params = {}) {
+        try{
+            const res = await client.get(`/repos/${owner}/${repo}/commits`, {params});
+            return res.data;
+        } catch (error) {
+            console.error("Error getting repo commits: ",error.message);
+        }
+    }
+
+    async function getUserOrgs(username){
+        try{
+            const res = await client.get(`/users/${username}/orgs`);
+            return res.data;
+        } catch (error) {
+            console.error("Error getting user's organisation: ",error.message);
+        }
+    }
+
+    async function getPullRequests(owner, repo, state='open'){
+        try{
+            const res = await client.get(`/repos/${owner}/${repo}/pulls?state=${state}`);
+            return res.data;
+        } catch (error) {
+            console.error("Error getting pull requests: ",error.message);
+        }
+    }
     return {
         getUserProfile,
-        getUserRepos
+        getUserRepos,
+        searchRepositories,
+        getRepoIssues,
+        createRepository,
+        getUserStarredRepos,
+        getRepoForks,
+        getRepoCollabs,
+        getRepoCommits,
+        getUserOrgs,
+        getPullRequests
     };
 }
 
