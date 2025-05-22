@@ -14,7 +14,7 @@ function GitHubAPI(userToken) {
             const res = await client.get(`/users/${username}`);
             return res.data;
         } catch (error) {
-            console.error('Error fetching user profile: ',error.message);
+            throw new Error('Error fetching user profile: ',error.message);
         }
     }
 
@@ -23,7 +23,7 @@ function GitHubAPI(userToken) {
             const res = await client.get(`/users/${username}/repos`);
             return res.data.map(repo => repo.name);
         } catch (error) {
-            console.error("Error fetching repos: ",error.message);
+            throw new Error("Error fetching repos: ",error.message);
         }
     }
 
@@ -35,7 +35,7 @@ function GitHubAPI(userToken) {
                 html_url: repo.html_url
             }));
         } catch (error) {
-            console.error("Error searching repos: ",error.message);
+            throw new Error("Error searching repos: ",error.message);
         }
     }
 
@@ -47,7 +47,7 @@ function GitHubAPI(userToken) {
                 comment: repo.title
             }));
         } catch (error) {
-            console.error("Error getting issues: ",error.message);
+            throw new Error("Error getting issues: ",error.message);
         }
     }
 
@@ -59,7 +59,7 @@ function GitHubAPI(userToken) {
                 url: repo.html_url
             }));
         } catch (error) {
-            console.error("Error getting starred repos: ",error.message);
+            throw new Error("Error getting starred repos: ",error.message);
         }
     }
 
@@ -71,7 +71,7 @@ function GitHubAPI(userToken) {
                 html: fork.html_url
             }));
         } catch (error) {
-            console.error("Error getting repo forks: ",error.message);
+            throw new Error("Error getting repo forks: ",error.message);
         }
     }
 
@@ -82,7 +82,7 @@ function GitHubAPI(userToken) {
             });
             return res.data;
         } catch (error){
-            console.error("Error getting repo collaborators: ",error.message);
+            throw new Error("Error getting repo collaborators: ",error.message);
         }
     }
 
@@ -91,7 +91,7 @@ function GitHubAPI(userToken) {
             const res = await client.get(`/repos/${owner}/${repo}/commits`, {params});
             return res.data.map(repo => repo.author.login);
         } catch (error) {
-            console.error("Error getting repo commits: ",error.message);
+            throw new Error("Error getting repo commits: ",error.message);
         }
     }
 
@@ -103,7 +103,7 @@ function GitHubAPI(userToken) {
                 org_url: repo.url
             }));
         } catch (error) {
-            console.error("Error getting user's organisation: ",error.message);
+            throw new Error("Error getting user's organisation: ",error.message);
         }
     }
 
@@ -115,7 +115,7 @@ function GitHubAPI(userToken) {
                 url: repo.url
             }));
         } catch (error) {
-            console.error("Error getting pull requests: ",error.message);
+            throw new Error("Error getting pull requests: ",error.message);
         }
     }
     return {
